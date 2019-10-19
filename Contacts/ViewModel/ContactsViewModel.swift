@@ -9,11 +9,11 @@
 import Foundation
 
 
-class ContactsViewModel {
+final class ContactsViewModel {
     
     var contacts: [[Contact]] = []
-    private var originalContacts: [Contact] = []
-    var trigger: Trigger!
+    private var data: [Contact] = []
+    var trigger: Trigger?
     
     var sort: SortingType = .Ascending {
         didSet {
@@ -21,17 +21,21 @@ class ContactsViewModel {
         }
     }
     
+    init(data: [Contact] = []) {
+        self.data = data
+    }
+    
     func loadContents() {
         RestApiService.makeRequest { [weak self] (result: Response<[Contact]>) in
             DispatchQueue.main.async {
             switch result {
             case .Success(let value):
-                self?.originalContacts = value
+                self?.data = value
                 self?.contacts = self?.postProcessData(input: value)  ?? []
             case .Failed( _ ):
                 self?.contacts = []
             }
-            self?.trigger()
+            self?.trigger?()
             }
         }
     }
@@ -39,16 +43,16 @@ class ContactsViewModel {
     func filterContent(search: String) {
         
         guard  search.isEmpty == false else {
-            contacts = postProcessData(input: originalContacts)
-            trigger()
+            contacts = postProcessData(input: data)
+            trigger?()
             return
         }
         
-        let filtered = originalContacts.filter {
+        let filtered = data.filter {
             $0.name.range(of: search, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil
         }
         contacts = postProcessData(input: filtered)
-        trigger()
+        trigger?()
         
     }
     
@@ -57,8 +61,8 @@ class ContactsViewModel {
     }
     
     private func sorting() {
-        contacts = postProcessData(input: originalContacts)
-        trigger()
+        contacts = postProcessData(input: data)
+        trigger?()
     }
     
 }

@@ -20,7 +20,6 @@ final class ContactsTableViewController: UITableViewController {
         // Pull up to hide the searchbar
         // Pull down to see the searchbar
         searchController.searchResultsUpdater = self
-        //tableView.tableHeaderView = searchController.searchBar
         navigationItem.searchController = searchController
         initialSetup()
     }
@@ -90,9 +89,6 @@ extension ContactsTableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        /*if isFilterEnabled {
-            return viewModel.processedContacts.count
-        }*/
         return viewModel.contacts[section].count
     }
 
