@@ -12,7 +12,7 @@ final class ContactsTableViewController: UITableViewController {
 
     private var searchController = UISearchController()
     private var viewModel = ContactsViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,11 +34,10 @@ final class ContactsTableViewController: UITableViewController {
     
     private func addNavigationBarActionItems() {
         
-        //let leftBarItem = UIBarButtonItem(image: UIImage(named: "arrowtriangle.up"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(ascendingOrder(button:)))
-        let leftBarItem = UIBarButtonItem(title: "^", style: .plain, target: self, action: #selector(ascendingOrder(button:)))
+        let leftBarItem = UIBarButtonItem(title: "A-Z", style: .plain, target: self, action: #selector(ascendingOrder(button:)))
         navigationItem.leftBarButtonItem = leftBarItem
         
-         let rightBarItem = UIBarButtonItem(title: "V", style: .plain, target: self, action: #selector(decendingOrder(button:)))
+         let rightBarItem = UIBarButtonItem(title: "Z-A", style: .plain, target: self, action: #selector(decendingOrder(button:)))
         navigationItem.rightBarButtonItem = rightBarItem
     }
     
@@ -84,7 +83,10 @@ extension ContactsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Sample"
+        guard let item = viewModel.contacts[section].first else {
+            return "[Unknown]"
+        }
+        return item.name.count > 0 ? "\(item.name.first!)" : ""
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

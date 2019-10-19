@@ -42,7 +42,8 @@ Model: {Contact, Address, Company}
 It persisting contact details
 
 
-
+NOTE : 
+If you are using xcode 11 to run this application. iPhonesimulator some times stuck. In this case restart your simulator. This is Xcode11 issue.
 
 
 

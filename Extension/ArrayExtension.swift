@@ -10,20 +10,10 @@ import Foundation
 
 extension Array where Element == Contact {
     
-    // Sort the contact details
     // Group the contact details
     func sortAndGroup(sort: SortingType) -> [[Element]] {
         
-        var sortedContacts: [Element] = []
-        
-        switch sort {
-        case .Ascending:
-            // Ascending order sorting
-            sortedContacts = self.sorted { $0.name < $1.name}
-        default:
-            // Decending order sorting
-            sortedContacts = self.sorted { $0.name > $1.name}
-        }
+        let sortedContacts: [Element] = contactSorting(sort: sort)
         
         var character: String = ""
         var temp: [Element] = []
@@ -47,6 +37,20 @@ extension Array where Element == Contact {
         }
         
         return group
+    }
+    
+    // Sort the contact details
+    private func contactSorting(sort: SortingType) -> [Element] {
+        var sortedContacts: [Element] = []
+        switch sort {
+        case .Ascending:
+            // Ascending order sorting
+            sortedContacts = self.sorted { $0.name < $1.name}
+        default:
+            // Decending order sorting
+            sortedContacts = self.sorted { $0.name > $1.name}
+        }
+        return sortedContacts
     }
     
 }
