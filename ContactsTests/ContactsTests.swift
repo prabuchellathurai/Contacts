@@ -14,6 +14,7 @@ class ContactsTests: XCTestCase {
     var contacts: [Contact] = []
     var viewModel: ContactsViewModel!
 
+    // Generating stub data
     override func setUp() {
         contacts = [Contact(name:"Steve Jobs"),
                     Contact(name:"Sachin"),
@@ -31,6 +32,8 @@ class ContactsTests: XCTestCase {
         
     }
 
+    // Filter
+    // Testing the filter logic is woking as expected
     func testFilter() {
         viewModel.contacts = contacts.sortAndGroup(sort: .Ascending)
         viewModel.filterContent(search: "Steve Jobs")
@@ -41,6 +44,8 @@ class ContactsTests: XCTestCase {
         assert(item.name == "Steve Jobs", "Decending order sorting failed")
     }
 
+    // Checking the performance of sorting and grouping algorithm
+    // We can set baseline and alter the logic
     func testPerformanceSortAndGroup() {
         self.measure {
             let group = contacts.sortAndGroup(sort: .Ascending)
@@ -48,6 +53,9 @@ class ContactsTests: XCTestCase {
         }
     }
     
+    // Sorting
+    // To check the ascending order sorting
+    // Check with stub data
     func testSortingAscending() {
         viewModel.sort = .Ascending
         guard let item = viewModel.contacts.first?.first else {
@@ -57,6 +65,9 @@ class ContactsTests: XCTestCase {
         assert(item.name == "Benjamin", "Ascending order sorting failed")
     }
     
+    // Sorting
+    // To check the decending order sorting
+    // Check with stub data
     func testSortingDecending() {
         viewModel.sort = .Decending
         guard let item = viewModel.contacts.first?.first else {
@@ -66,6 +77,8 @@ class ContactsTests: XCTestCase {
         assert(item.name == "Tamir", "Decending order sorting failed")
     }
 
+    // Checking the asynchronous operation is working as expected
+    // Expectation timout interval is 2 sec
     func testRestAPI() {
         let exceptation: XCTestExpectation = expectation(description: "")
         RestApiService.makeRequest { (data: Response<Contact>) in
