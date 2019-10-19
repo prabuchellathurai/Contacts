@@ -2,48 +2,38 @@
 
 This iOS contact application is fetch the contact details from the server and display in a tableview.
 
-# NOTE : 
+# NOTE
 If you are using xcode 11 to run this application. iPhonesimulator some times stuck. In this case restart your simulator. This is Xcode11 issue.
 
-# Features:
+# Features
 * Sorting the contacts in ascending and decending order
 * User can able to search based on firstname
 * Contacts are grouped by Alphabetical order
 
 # Techniques
-I used below techniques in this application,
+This are the techniques in this application,
 * SOLID principles
 * MVVM Design Pattern
 * Unit Test Cases 
 
 # SOLID Principles
-I assigned single responsibility for all the classes. Example: {RestApiService, Response}
-There is only one reason to change the particular class. It don't affect other functionalities.
+Used single responsibility for all the classes. There is only one reason to change the particular class. If we are working in one feature it don't affect other features.
 
 # MVVM (MODEL -> VIEW -> View Model)
-What is MVVM?
-* VIEW hold the reference of VIEWMODEL
-* VIEWMODEL hold the reference of MODEL
-
-The advantages,
+The advantages of using MVVM,
 * Code is losely coupled
 * Writing unit test case is easy
 
-# Classes:
-RestApiService.swift   ::    
-To make rest api calls.
+# Classes
+RestApiService.swift  :
+This is the generic class to make rest api calls. And convert the json object in to model object
 
-ArrayExtension.swift   ::     
-It contains sorting and grouping algorithn
+ArrayExtension.swift   :
+This is an extension of Array. It contains sorting and grouping algorithm
 
-ContactsTableViewController.swift  ::    
-View class
+ErrorTypes.swift    : [enum]
+This class is used for error handling. We can customize errors.
 
-ContactsViewModel.swift  ::    
-Viewmodel class. It works intermediate between view and model
-
-Model {Contact, Address, Company}     ::       
-It persisting contact details
 
 
 
