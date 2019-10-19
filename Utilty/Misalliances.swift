@@ -6,6 +6,7 @@
 //  Copyright © 2019 sample. All rights reserved.
 //
 
+// Just created custom type for callback block
 typealias Trigger = () -> Void
 
 

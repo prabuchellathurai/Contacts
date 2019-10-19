@@ -9,38 +9,73 @@
 import Foundation
 
 
-class ContactsViewModel {
+final class ContactsViewModel {
     
-    var contacts: [Contact] = []
-    var processedContacts: [Contact] = []
-    var trigger: Trigger!
+    var contacts: [[Contact]] = []
+    private var data: [Contact] = []
+    var trigger: Trigger?
     
-    init() {
-       
+    var sort: SortingType = .Ascending {
+        didSet {
+            sorting()
+        }
     }
     
+    init(data: [Contact] = []) {
+        self.data = data
+    }
+    
+    // MAR: - RestAPI
+    // Load contacts from the server
     func loadContents() {
         RestApiService.makeRequest { [weak self] (result: Response<[Contact]>) in
+            DispatchQueue.main.async {
             switch result {
             case .Success(let value):
-                self?.contacts = value
+                self?.data = value
+                self?.contacts = self?.postProcessData(input: value)  ?? []
             case .Failed( _ ):
                 self?.contacts = []
             }
-            self?.trigger()
+            self?.trigger?()
+            }
         }
     }
     
+    // MARK: - Filter
+    // Filter the content based on firstname
     func filterContent(search: String) {
-        processedContacts = contacts.filter {
+        
+        guard  search.isEmpty == false else {
+            contacts = postProcessData(input: data)
+            trigger?()
+            return
+        }
+        
+        // Contact filter logics
+        let filtered = data.filter {
             $0.name.range(of: search, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil
         }
-        trigger()
+        
+        // Generating data compatible for display format
+        contacts = postProcessData(input: filtered)
+        trigger?()
+        
     }
     
-    func sorting() {
-        let value = contacts
-        contacts = value
+    // MARK: - Grouping
+    // Generating data compatible for display format
+    private func postProcessData(input: [Contact]) -> [[Contact]] {
+        input.sortAndGroup(sort: sort)
+    }
+    
+    // MARK: - Sorting
+    private func sorting() {
+        contacts = postProcessData(input: data)
+        trigger?()
     }
     
 }
+
+
+

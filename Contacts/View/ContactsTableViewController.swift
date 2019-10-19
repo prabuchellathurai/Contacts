@@ -12,7 +12,7 @@ final class ContactsTableViewController: UITableViewController {
 
     private var searchController = UISearchController()
     private var viewModel = ContactsViewModel()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,9 +26,7 @@ final class ContactsTableViewController: UITableViewController {
     
     private func initialSetup() {
         viewModel.trigger = {
-            DispatchQueue.main.async {
                 self.tableView.reloadData()
-            }
         }
         addNavigationBarActionItems()
         viewModel.loadContents()
@@ -36,22 +34,21 @@ final class ContactsTableViewController: UITableViewController {
     
     private func addNavigationBarActionItems() {
         
-        //let leftBarItem = UIBarButtonItem(image: UIImage(named: "arrowtriangle.up"), landscapeImagePhone: nil, style: .plain, target: self, action: #selector(ascendingOrder(button:)))
-        let leftBarItem = UIBarButtonItem(title: "^", style: .plain, target: self, action: #selector(ascendingOrder(button:)))
+        let leftBarItem = UIBarButtonItem(title: "A-Z", style: .plain, target: self, action: #selector(ascendingOrder(button:)))
         navigationItem.leftBarButtonItem = leftBarItem
         
-         let rightBarItem = UIBarButtonItem(title: "V", style: .plain, target: self, action: #selector(decendingOrder(button:)))
+         let rightBarItem = UIBarButtonItem(title: "Z-A", style: .plain, target: self, action: #selector(decendingOrder(button:)))
         navigationItem.rightBarButtonItem = rightBarItem
     }
     
     @objc
     @IBAction func ascendingOrder(button: UIBarButtonItem) {
-        
+        viewModel.sort = .Ascending
     }
     
     @objc
     @IBAction func decendingOrder(button: UIBarButtonItem) {
-        
+        viewModel.sort = .Decending
     }
     
     // Check searchbar is enabled currently
@@ -82,23 +79,29 @@ extension ContactsTableViewController: UISearchResultsUpdating {
 extension ContactsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        return viewModel.contacts.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let item = viewModel.contacts[section].first else {
+            return "[Unknown]"
+        }
+        return item.name.count > 0 ? "\(item.name.first!)" : ""
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFilterEnabled {
-            return viewModel.processedContacts.count
-        }
-        return viewModel.contacts.count
+        return viewModel.contacts[section].count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "default")
-        let result = isFilterEnabled ? viewModel.processedContacts : viewModel.contacts
-        cell.textLabel?.text = result[indexPath.row].name
-        return cell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "default")
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "default")
+        }
+        let contactList = viewModel.contacts[indexPath.section]
+        cell!.textLabel?.text = contactList[indexPath.row].name
+        return cell!
     }
     
 }

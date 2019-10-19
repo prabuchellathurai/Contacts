@@ -8,6 +8,7 @@
 
 import Foundation
 
+// This class is build 
 class RestApiService {
     
     // Generic method to make service calls

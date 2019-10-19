@@ -17,6 +17,10 @@ class Contact: Codable {
     var website: String = ""
     var address: Address!
     var company: Company!
+    
+    init(name: String) {
+        self.name = name
+    }
 }
 
 
