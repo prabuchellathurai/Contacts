@@ -10,6 +10,8 @@
 		F52990E0235A0E1300DB8BCD /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52990DF235A0E1300DB8BCD /* ContactsTableViewController.swift */; };
 		F52990E2235A14B800DB8BCD /* ContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52990E1235A14B800DB8BCD /* ContactsViewModel.swift */; };
 		F52990E5235A15EF00DB8BCD /* Misalliances.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52990E4235A15EF00DB8BCD /* Misalliances.swift */; };
+		F52990E9235AE25E00DB8BCD /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52990E8235AE25E00DB8BCD /* ArrayExtension.swift */; };
+		F52990EB235AEEB400DB8BCD /* Sortings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F52990EA235AEEB400DB8BCD /* Sortings.swift */; };
 		F56044A42359FD65008E30F1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56044A32359FD65008E30F1 /* AppDelegate.swift */; };
 		F56044A62359FD65008E30F1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F56044A52359FD65008E30F1 /* SceneDelegate.swift */; };
 		F56044AB2359FD65008E30F1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56044A92359FD65008E30F1 /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 		F52990DF235A0E1300DB8BCD /* ContactsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
 		F52990E1235A14B800DB8BCD /* ContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewModel.swift; sourceTree = "<group>"; };
 		F52990E4235A15EF00DB8BCD /* Misalliances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Misalliances.swift; sourceTree = "<group>"; };
+		F52990E8235AE25E00DB8BCD /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
+		F52990EA235AEEB400DB8BCD /* Sortings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sortings.swift; sourceTree = "<group>"; };
 		F56044A02359FD65008E30F1 /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F56044A32359FD65008E30F1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F56044A52359FD65008E30F1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,13 +98,23 @@
 			isa = PBXGroup;
 			children = (
 				F52990E4235A15EF00DB8BCD /* Misalliances.swift */,
+				F52990EA235AEEB400DB8BCD /* Sortings.swift */,
 			);
 			path = Utilty;
+			sourceTree = "<group>";
+		};
+		F52990E7235AE23500DB8BCD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F52990E8235AE25E00DB8BCD /* ArrayExtension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		F56044972359FD65008E30F1 = {
 			isa = PBXGroup;
 			children = (
+				F52990E7235AE23500DB8BCD /* Extension */,
 				F52990E3235A153B00DB8BCD /* Utilty */,
 				F56044D42359FDAA008E30F1 /* Server */,
 				F56044A22359FD65008E30F1 /* Contacts */,
@@ -330,6 +344,8 @@
 				F56044E3235A05E9008E30F1 /* Company.swift in Sources */,
 				F52990E5235A15EF00DB8BCD /* Misalliances.swift in Sources */,
 				F52990E0235A0E1300DB8BCD /* ContactsTableViewController.swift in Sources */,
+				F52990EB235AEEB400DB8BCD /* Sortings.swift in Sources */,
+				F52990E9235AE25E00DB8BCD /* ArrayExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,36 +11,57 @@ import Foundation
 
 class ContactsViewModel {
     
-    var contacts: [Contact] = []
-    var processedContacts: [Contact] = []
+    var contacts: [[Contact]] = []
+    private var originalContacts: [Contact] = []
     var trigger: Trigger!
     
-    init() {
-       
+    var sort: SortingType = .Ascending {
+        didSet {
+            sorting()
+        }
     }
     
     func loadContents() {
         RestApiService.makeRequest { [weak self] (result: Response<[Contact]>) in
+            DispatchQueue.main.async {
             switch result {
             case .Success(let value):
-                self?.contacts = value
+                self?.originalContacts = value
+                self?.contacts = self?.postProcessData(input: value)  ?? []
             case .Failed( _ ):
                 self?.contacts = []
             }
             self?.trigger()
+            }
         }
     }
     
     func filterContent(search: String) {
-        processedContacts = contacts.filter {
+        
+        guard  search.isEmpty == false else {
+            contacts = postProcessData(input: originalContacts)
+            trigger()
+            return
+        }
+        
+        let filtered = originalContacts.filter {
             $0.name.range(of: search, options: [.caseInsensitive, .diacriticInsensitive], range: nil, locale: nil) != nil
         }
+        contacts = postProcessData(input: filtered)
+        trigger()
+        
+    }
+    
+    private func postProcessData(input: [Contact]) -> [[Contact]] {
+        input.sortAndGroup(sort: sort)
+    }
+    
+    private func sorting() {
+        contacts = postProcessData(input: originalContacts)
         trigger()
     }
     
-    func sorting() {
-        let value = contacts
-        contacts = value
-    }
-    
 }
+
+
+

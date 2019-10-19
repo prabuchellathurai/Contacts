@@ -20,15 +20,14 @@ final class ContactsTableViewController: UITableViewController {
         // Pull up to hide the searchbar
         // Pull down to see the searchbar
         searchController.searchResultsUpdater = self
+        //tableView.tableHeaderView = searchController.searchBar
         navigationItem.searchController = searchController
         initialSetup()
     }
     
     private func initialSetup() {
         viewModel.trigger = {
-            DispatchQueue.main.async {
                 self.tableView.reloadData()
-            }
         }
         addNavigationBarActionItems()
         viewModel.loadContents()
@@ -46,12 +45,12 @@ final class ContactsTableViewController: UITableViewController {
     
     @objc
     @IBAction func ascendingOrder(button: UIBarButtonItem) {
-        
+        viewModel.sort = .Ascending
     }
     
     @objc
     @IBAction func decendingOrder(button: UIBarButtonItem) {
-        
+        viewModel.sort = .Decending
     }
     
     // Check searchbar is enabled currently
@@ -83,22 +82,29 @@ extension ContactsTableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return viewModel.contacts.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Sample"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if isFilterEnabled {
+        /*if isFilterEnabled {
             return viewModel.processedContacts.count
-        }
-        return viewModel.contacts.count
+        }*/
+        return viewModel.contacts[section].count
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "default")
-        let result = isFilterEnabled ? viewModel.processedContacts : viewModel.contacts
-        cell.textLabel?.text = result[indexPath.row].name
-        return cell
+        var cell = tableView.dequeueReusableCell(withIdentifier: "default")
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "default")
+        }
+        let contactList = viewModel.contacts[indexPath.section]
+        cell!.textLabel?.text = contactList[indexPath.row].name
+        return cell!
     }
     
 }
