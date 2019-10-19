@@ -10,6 +10,7 @@ import Foundation
 
 // Custom Error
 // Used to find type of errors. Based on we are handling errors.
+//
 enum ContactError: Error {
     case Invalid
 }
